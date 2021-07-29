@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	#wrap {
+		background-color: pink;
+	}
+	ul {
+		display: flex;
+	}
+	.foot {
+		background-color: gray;
+	}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<ul>
+			<li>메뉴1</li>
+			<li>메뉴2</li>
+			<li>메뉴3</li>
+		</ul>
