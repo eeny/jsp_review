@@ -1,3 +1,4 @@
+<%@page import="com.company.CookieUtil"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -34,6 +35,11 @@ html, body {
 </head>
 <body>
 	<div id="wrap">
+		ÇöÀç Äí±â:<%=CookieUtil.getCookieValue("ad", request)%>
+
+		<%
+		if (CookieUtil.getCookieValue("ad", request) == null) {
+		%>
 		<div class="pop">
 			<div>
 				<input type="checkbox" name="ck" id="ck">
@@ -41,6 +47,9 @@ html, body {
 
 			</div>
 		</div>
+		<%
+		}
+		%>
 	</div>
 	<script>
 		function myFunc() {
