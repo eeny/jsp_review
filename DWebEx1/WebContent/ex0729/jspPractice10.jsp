@@ -11,7 +11,7 @@
 		int number = 10;
 	%>
 	
-	<%@ include file="/jspPractice11.jspf" %>
+	<%@ include file="/ex0729/jspPractice11.jspf" %>
 	<!-- include 디렉티브를 통해 다른 JSP에 포함되는 JSP 파일의 경우
 		일반 JSP파일과 구분하기 위해 확장자로 jspf를 사용한다.
 		JSP의 소스 코드 조각이다!

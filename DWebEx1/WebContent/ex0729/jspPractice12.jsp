@@ -6,4 +6,4 @@
 	Calendar cal = Calendar.getInstance();
 	request.setAttribute("time", cal);
 %>
-<jsp:forward page="/jspPractice13.jsp"/>
+<jsp:forward page="/ex0729/jspPractice13.jsp"/>
