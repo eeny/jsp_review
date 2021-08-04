@@ -15,7 +15,7 @@
 	<form action="guestbook1-2.jsp">
 		<table border="1" cellspacing="0" cellpadding="3">
 			<tr><td>이름</td><td><input type="text" name="name" size="10" required></td></tr>
-			<tr><td>패스워스</td><td><input type="password" name="pw" size="10" required></td></tr>
+			<tr><td>패스워드</td><td><input type="password" name="pw" size="10" required></td></tr>
 			<tr><td>이메일</td><td><input type="email" name="email" required></td></tr>
 			<tr><td colspan="2"><textarea rows="10" cols="50" name="content" required></textarea></td></tr>
 			<tr><td colspan="2"><input type="submit" value="글 남기기"></td></tr>

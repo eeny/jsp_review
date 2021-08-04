@@ -8,12 +8,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>방명록 만들기 - 수정 입력창</title>
+<title>방명록 만들기 - 수정</title>
 </head>
 <body>
 	<%
 		request.setCharacterEncoding("utf-8");
-		int idx = Integer.parseInt(request.getParameter("idx"));
+	
+		int idx = Integer.parseInt(request.getParameter("idx"));	
+		String name = request.getParameter("name");
+		String pw = request.getParameter("pw");
+		String email = request.getParameter("email");
+		String content = request.getParameter("content");
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		
@@ -26,19 +31,33 @@
 			String dbUser = "root";
 			String dbPass = "1234";
 			
-			String sql = null;// 수정페이지로 만들어야함!!!!!!
+			String sql = "UPDATE guestbook SET NAME = '" + name + "', pw = '" + pw + "', email = '" + email + "', content = '" + content + "' WHERE idx = " + idx;
 			
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
 			stmt = conn.createStatement();
-			result = stmt.executeUpdate(sql);	
+			result = stmt.executeUpdate(sql);
 			
-			
+			if(result > 0) {
+	%>
+			<script>
+				alert("글 수정 완료!");
+				location.href="guestbook1.jsp";
+			</script>
+	<%		
+			} else {
+	%>
+			<script>
+				alert("글 수정 실패...");
+				location.href="guestbook1.jsp";
+			</script>
+	<%			
+			}
 		} finally {
 			try {
 				if(stmt != null) {stmt.close();}
 				if(conn != null) {conn.close();}
 			} catch(SQLException ex) {}
-		}	
+		}
 	%>
 </body>
 </html>
