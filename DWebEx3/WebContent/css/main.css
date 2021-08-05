@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+table {
+	width: 500px;
+	border-collapse: collapse; /* cellspacing이랑 같은 기능 */
+	text-align: center;
+}
+td {
+	border: 1px solid black;
+}
+td input {
+	width: 90%;
+}
+textarea {
+	width: 90%;
+}
