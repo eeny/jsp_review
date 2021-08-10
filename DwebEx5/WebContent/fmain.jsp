@@ -14,8 +14,6 @@
 				<input type="submit" value="로그인">
 				<input type="button" value="회원가입" onclick="location.href='fregist.jsp'">
 			</form>
-
-
 <%		
 	} else {
 %>
@@ -31,7 +29,23 @@
 %>			
 		</div>
 		<div class="newtext">
+			최신글(10개) - <a href="flist.jsp">더보기</a>
 			<jsp:include page="fmainnew.jsp"/><br>
-			<a href="fwrite.jsp">글쓰기</a>
+			<%
+				if(session.getAttribute("logindata") != null) {
+			%>
+				<a href="fwrite.jsp">글쓰기</a>
+			<%		
+				}
+			%>
 		</div>
 <jsp:include page="fbottom.jsp"/>
+
+
+
+
+
+
+
+
+

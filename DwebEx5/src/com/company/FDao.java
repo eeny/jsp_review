@@ -122,15 +122,17 @@ public class FDao {
 		return dto;
 	}
 	
-	public Vector<FDto> getAllFmember() {
+	public Vector<FDto> getAllFmember(int offset, int cnt) {
 		Vector<FDto> v = new Vector<FDto>();
 		// FDto는 DB 결과의 한 줄이다.
 		// 현재 메서드는 결과가 여러줄이므로 각 줄을 FDto에 담고 각 줄을 Vector에 담는다.
 		// 그러면 Vector에는 모든 줄(여러개의 FDto)이 다 담겨있다!
 		try {
 			conn = getConnection();
-			String sql = "select * from fmember";
+			String sql = "select * from fmember limit ?, ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (offset - 1) * cnt);
+			pstmt.setInt(2, cnt);
 			rs = pstmt.executeQuery();
 			
 			// rs에는 결과가 담긴다. 한 줄 씩 (FDto) 빼와서 Vector에 하나씩 담는다!
@@ -161,7 +163,7 @@ public class FDao {
 			// 1) heidiSQL을 열고 연결한다고 생각하자.
 			conn = getConnection();
 			// 2) heidiSQL에서 쿼리를 작성한다고 생각하자.
-			String sql = "select * from fboard order by " + order + " limit " + cnt;
+			String sql = "select * from fboard order by " + order + " desc limit " + cnt;
 			// 3) 실행할 구문을 드래그한다고 생각하자.
 			pstmt = conn.prepareStatement(sql);
 			// 혹시 ?에 값을 넣을 게 있다면 이 위치에서 하나씩 넣자.
@@ -203,6 +205,114 @@ public class FDao {
 		} finally {
 			freeConnection(pstmt, conn);
 		}
+		return result;
+	}
+	
+	public FBDto getContent(int idx) {
+		FBDto dto = new FBDto();
+		
+		try {
+			conn = getConnection();
+			String sql = "SELECT * FROM fboard WHERE idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setIdx(rs.getInt(1));
+				dto.setFmember_id(rs.getString(2));
+				dto.setFmember_name(rs.getString(3));
+				dto.setTitle(rs.getString(4));
+				dto.setContent(rs.getString(5));
+				dto.setRegdate(rs.getString(6));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			freeConnection(rs, pstmt, conn);
+		}
+		
+		return dto;
+	}
+	
+	public Vector<FBDto> getFboardAll(int offset, int cnt) { // offset은 시작번호
+		Vector<FBDto> v = new Vector<>();
+		// 1,2,3,4,5,6,7
+		// 0,5,10,15,20,25,30
+		try {
+			conn = getConnection();
+			String sql = "select * from fboard order by regdate desc limit ?, ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (offset - 1) * cnt);
+			pstmt.setInt(2, cnt);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				FBDto dto = new FBDto();
+				dto.setIdx(rs.getInt(1));
+				dto.setFmember_id(rs.getString(2));
+				dto.setFmember_name(rs.getString(3));
+				dto.setTitle(rs.getString(4));
+				dto.setContent(rs.getString(5));
+				dto.setRegdate(rs.getString(6));
+				v.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			freeConnection(rs, pstmt, conn);
+		}
+		return v;
+	}
+	
+	public int getTotalCnt(String table) {
+		try {
+			conn = getConnection();
+			String sql = "select count(idx) from " + table;
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1); // 결과인 34가 담긴다!
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			freeConnection(pstmt, conn);
+		}
+		
+		return result;
+	}
+	
+	public int deleteBoard(int idx, String fid) {
+		try {
+			conn = getConnection();
+			String sql = "delete from fboard where idx = ? and fmember_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.setString(2, fid);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			freeConnection(pstmt, conn);
+		}
+		
+		return result;
+	}
+	
+	public int updateBoard(int idx, String title, String content) {
+		try {
+			conn = getConnection();
+			String sql = "UPDATE fboard SET title = ?, content = ?, regdate = now() WHERE idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setInt(3, idx);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			freeConnection(pstmt, conn);
+		}
+		
 		return result;
 	}
 	

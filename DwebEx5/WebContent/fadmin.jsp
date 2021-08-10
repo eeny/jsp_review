@@ -18,7 +18,19 @@
 	} else {
 	
 	FDao dao = new FDao();
-	Vector<FDto> v = dao.getAllFmember();
+	
+	// 페이징 처리
+	double totalCnt = (double)dao.getTotalCnt("fmember"); // 총 회원 수
+	int curPage = 5; // 한페이지에 5명씩
+	int totalPage = (int)Math.ceil(totalCnt/curPage); // 총 페이지개수
+	
+	int pnum = 1;
+	
+	if(request.getParameter("pnum") != null) {
+		pnum = Integer.parseInt(request.getParameter("pnum"));
+	}
+	
+	Vector<FDto> v = dao.getAllFmember(pnum, curPage);
 %>
 	관리자 페이지
 	<table border="1">
@@ -39,5 +51,21 @@
 			</tr>
 		</c:forEach>
 	</table>
-<% } %>
+	<a href="fmain.jsp">처음으로</a>
+<% 
+		if(totalPage > 5) { // 한 페이지에 5쪽만 나오게
+			totalPage = 5;
+		}
+
+		for(int i=1; i<=totalPage; i++) {
+%>
+			<a href="fadmin.jsp?pnum=<%=i%>">[<%=i %>]</a>
+<%		
+		}
+		if(totalPage > 5) {
+%>
+			<a href="fadmin.jsp?pnum=6">[다음]</a>
+<%				
+		}
+	} %>
 <jsp:include page="fbottom.jsp"/>
