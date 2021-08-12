@@ -18,20 +18,25 @@
 	
 		// 페이징 처리
 		double totalCnt = (double)dao.getTotalCnt("fboard"); // 총 게시글 수
-		int curPage = 5; // 한 페이지에 출력할 개수
+		int curPage = 5; // 한 페이지에 출력할 행의 개수
 		int totalPage = (int)Math.ceil(totalCnt/curPage); // 총 페이지 개수
 	
-		int pblock = 1; // 1 ~ 5 페이지
-		// pblock = 2 일 때는 6 ~ 10 페이지
+		int countPage = 5; // 한페이지에 출력될 페이징 번호의 개수
 		
-		int pnum = 1;
+		int pnum = 1; // 현재 페이지, 시작 페이지 번호
 		
 		if(request.getParameter("pnum") != null) {
 			pnum = Integer.parseInt(request.getParameter("pnum"));
 		}
+		
+		int startPage = ((pnum - 1) / countPage) * countPage + 1;
+		int endPage = startPage - 1 + countPage;
+		if(endPage > totalPage) {
+			endPage = totalPage;
+		}
 	
 		Vector<FBDto> v = dao.getFboardAll(pnum, curPage);
-
+		
 		if (v.size() > 0) {
 	%>
 	
@@ -58,26 +63,36 @@
 </table>
 
 <a href="fmain.jsp">메인으로</a>
-<a href="flist.jsp?pnum=1">[처음]</a>
+
 
 <%
-	if(totalPage > 5) { // 한 번에 5쪽만 나오게 설정
-		totalPage = 5;
-	}
-	
-	for(int i=1; i<=totalPage; i++) {
+	if(pnum > 1) {
 %>
-		<a href="flist.jsp?pnum=<%=i%>">[<%=i %>]</a>
+		<a href="flist.jsp?pnum=1" style="color: green;">[처음]</a>
+		<a href="flist.jsp?pnum=<%=pnum-1 %>" style="color: orange;">[이전]</a>
 <%
 	}
-	if(pnum >= 5) {
+	
+	for(int i=startPage; i<=endPage; i++) {
+		if(pnum == i) {
 %>
-		<a href="flist.jsp?pnum=6">[다음]</a>
+			<span style="color: red;font-weight: bolder;">[<%=i %>]</span>
+<%			
+		} else {
+%>
+			<a href="flist.jsp?pnum=<%=i%>" style="color: blue">[<%=i %>]</a>
+<%			
+		}
+	}
+	
+	if(pnum < totalPage) {
+%>
+		<a href="flist.jsp?pnum=<%=pnum + 1 %>" style="color: orange;">[다음]</a>
+		<a href="flist.jsp?pnum=<%=totalPage %>" style="color: green;">[끝]</a>
 <%
 	}
 %>
 <br>
-총게시글수: <%=totalCnt %> / 총페이지수: <%=totalPage %> / 현재페이지: <%=pnum %>
 <!-- 
 	한 페이지에 나올 개수? 5개 - 이거는 미리 정해야 한다!
 	현재 개수는 1 ~ 34까지 총 34개다!
