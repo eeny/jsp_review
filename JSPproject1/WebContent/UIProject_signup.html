@@ -1,12 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UI프로젝트 로그인화면</title>
+    <title>UI프로젝트 회원가입화면</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +32,6 @@
             width: 100%;
             height: 110px;
             background-color: white;
-
         }
         nav {
             width: 100%;
@@ -85,7 +82,7 @@
         }
         .big_nav ul::before {/*회색 실선*/
             content: "";
-            width: 600px;
+            width: 598px;
             height: 1px;
             background-color: rgb(197, 197, 197);
             z-index: -1;
@@ -108,7 +105,7 @@
         .topimg {
             width: 100%;
             height: 40%;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0,0.4)), url("login_bg.jpg");
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0,0.4)), url("signup_bg.jpg");
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -127,34 +124,53 @@
         .topimg b {
             font-size: 40px;
         }
-        .login {
+        .signup {
             width: 100%;
         }
-        .login form {
-            width: 390px;
-            height: 600px;
+        .signup form {
+            width: 720px;
+            height: 820px;
             margin: 50px auto;
-            padding: 60px 0;
             border: 1px solid rgba(172, 172, 172, 0.541);
             box-shadow: 7px 7px 20px rgba(172, 172, 172, 0.5);
         }
-        .login label {
-            width: 70%;
-            margin: 0 auto;
-            display: block;
+        .signup table {
+            width: 90%;
+            height: 600px;
+            margin: 50px auto;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+        .signup td:first-child {
+            width: 23%;
+            padding: 5px;
+            text-align: center;
+        }
+        .signup td:last-child {
+            padding-left: 20px;
+        }
+        .signup td div {
+            /* display: none; */
+        }
+        .signup td div.good {
+            color: green;
+        }
+        .signup td div.bad {
+            color: red;
+        }
+        .signup label {
             font-size: 20px;
             font-weight: bold;
             color: rgb(48, 48, 48);
         }
-        .login input[type=text], input[type=password] {
+        .signup input[type=text], input[type=password], input[type=date], input[type=password], select {
             width: 70%;
             height: 45px;
-            margin: 3% auto;
-            padding: 10px;
+            padding-left: 10px;
             border: 1px solid rgba(172, 172, 172, 0.541);
             border-radius: 5px 5px 5px 5px;
-            display: block;
-            font-size: 20px;
+            font-size: 18px;
+            font-family: 'Noto Sans KR', sans-serif;
         }
         input[type=text]:focus {
             outline: none;
@@ -166,23 +182,46 @@
             border: 1px solid rgba(68, 187, 68, 0.7);
             box-shadow: 0px 0px 5px 3px rgba(68, 187, 68, 0.3);
         }
-        .login div {
-            margin: 5%;
-            text-align: center;
+        input[type=date]:focus {
+            outline: none;
+            border: 1px solid rgba(68, 187, 68, 0.7);
+            box-shadow: 0px 0px 5px 3px rgba(68, 187, 68, 0.3);
         }
-        .login a {
+        input[type=radio] {
+            display: none;
+        }
+        input[type=radio] + label {
+            width: 55px;
+            height: 40px;
+            margin: 0 5px;
+            color: gray;
+            font-size: 18px;
+            font-weight: lighter;
+            text-align: center;
+            line-height: 37px;
+            border: 1px solid rgba(172, 172, 172, 0.541);
+            border-radius: 10px 10px 10px 10px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        input[type=radio]:checked + label {
+            border: none;
+            background-color: rgba(68, 187, 68, 0.7);
+            color: white;
+        }
+        .signup a {
             font-size: 16px;
             color: rgb(146, 144, 144);
             padding: 0 3%;
         }
-        .login a:nth-child(2) {
+        .signup a:nth-child(2) {
             border-left: 1px solid rgb(179, 177, 177);
             border-right: 1px solid rgb(179, 177, 177);
         }
-        .login input[type=button] {
+        .signup input[type=button] {
             width: 40%;
             height: 60px;
-            margin: 10% auto;
+            margin: 0 auto;
             display: block;
             font-size: 20px;
             font-weight: bold;
@@ -191,6 +230,9 @@
             border-radius: 5px 5px 5px 5px;
             background-color: rgb(50, 207, 50);
             cursor: pointer;
+        }
+        .signup input::placeholder {
+            font-size: 15px;
         }
         input[type=button]:hover {
             background-color: rgb(41, 151, 41);
@@ -253,27 +295,93 @@
                     <li><a href=""><span>프로젝트</span><span class="under"></span></a></li>
                     <li><a href=""><span>공지사항</span><span class="under"></span></a></li>
                     <li><a href=""><span>문의</span><span class="under"></span></a></li>
-                    <li><a href="UIProject_login.html"><span>그룹웨어</span><span class="under"></span></a></li>
+                    <li><a href="UIProject_login.html"><span>로그인</span><span class="under"></span></a></li>
                 </ul>
             </div>
         </nav>
         
         <header class="topimg">
-            <p><b>로그인</b><br>INIT 그룹웨어에 접속할 계정을 입력해주세요.</p>
+            <p><b>회원가입</b><br>INIT 그룹웨어에 가입할 계정을 생성해주세요.</p>
         </header>
 
-        <section class="login">
+        <section class="signup">
             <form action="">
-                <label for="">아이디</label>
-                <input type="text">
-                <label for="">비밀번호</label>
-                <input type="password">
-                <div>
-                    <a href="">아이디 찾기</a>
-                    <a href="">비밀번호 찾기</a>
-                    <a href="">회원가입</a>
-                </div>
-                <input type="button" value="로그인">
+                <table>
+                    <tr>
+                        <td><label for="">아이디</label></td>
+                        <td><input type="text" placeholder="영문 대소문자 또는 숫자, 5~15자리">
+                            <div class="good"><i class="far fa-check-circle"></i> 사용가능한 아이디입니다</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="">비밀번호</label></td>
+                        <td><input type="password" placeholder="영문,숫자,특수문자  중 2종류 이상, 10~12자리">
+                            <div class="bad"><i class="fas fa-exclamation-circle"></i> 비밀번호는 영문,숫자,특수문자 중 2종류 이상, 10~12자리여야 합니다</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="">비밀번호 확인</label></td>
+                        <td><input type="password">
+                            <div class="bad"><i class="fas fa-exclamation-circle"></i> 비밀번호가 동일하지 않습니다</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="">사원번호</label></td>
+                        <td><input type="text">
+                            <div class="bad"><i class="fas fa-exclamation-circle"></i> 이미 가입된 사원입니다</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="">이름</label></td><td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="">생년월일</label></td>
+                        <td>
+                            <input type="date">
+                            <input type="radio" name="calendar" id="solar" value="양력" checked><label for="solar">양력</label>
+                            <input type="radio" name="calendar" id="lunar" value="음력"><label for="lunar">음력</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="">소속</label></td>
+                        <td><select name="department" id="dept">
+                            <option value="">소속을 선택하세요</option>
+                            <option value="총무">총무</option>
+                            <option value="회계">회계</option>
+                            <option value="인사">인사</option>
+                            <option value="기획">기획</option>
+                            <option value="홍보">홍보</option>
+                            <option value="연구개발">연구개발</option>
+                            <option value="기술지원">기술지원</option>
+                            <option value="생산관리">생산관리</option>
+                            <option value="전략기획">전략기획</option>
+                            <option value="영업지원">영업지원</option>
+                            <option value="해외사업">해외사업</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td><label for="">직급</label></td>
+                        <td><select name="rank" id="rank">
+                            <option value="">직급을 선택하세요</option>
+                            <option value="CEO">CEO</option>
+                            <option value="사장">사장</option>
+                            <option value="부사장">부사장</option>
+                            <option value="전무">전무</option>
+                            <option value="상무">상무</option>
+                            <option value="이사">이사</option>
+                            <option value="부장">부장</option>
+                            <option value="차장">차장</option>
+                            <option value="과장">과장</option>
+                            <option value="대리">대리</option>
+                            <option value="주임">주임</option>
+                            <option value="사원">사원</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td><label for="">사진</label></td><td><input type="file"></td>
+                    </tr>
+                </table>
+                <input type="button" value="가입요청">
             </form>
         </section>
 

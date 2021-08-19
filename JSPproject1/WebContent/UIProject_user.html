@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI프로젝트 인사정보화면</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+        *, html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        #wrap {
+            display: flex;
+            position: relative;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        header {
+            width: 100%;
+            height: 65px;
+            background-color: rgb(8, 113, 185);
+            color: white;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            position: fixed;
+        }
+        header .logo {
+            width: 80%;
+            height: 65px;
+            font-size: 30px;
+            padding-left: 20px;
+            line-height: 65px;
+            cursor: pointer;
+        }
+        header .hnav {
+            width: 11%;
+            height: 65px;
+            display: flex;
+            flex-flow: row wrap;
+            text-align: center;
+        }
+        header .hmenu {
+            padding-top: 10px;
+            margin-left: 15px;
+            font-size: 13px;
+        }
+        .hmenu a {
+            color: white;
+        }
+        .hmenu i {
+            font-size: 25px;
+        }
+        header .admin {
+            visibility: hidden;
+        }
+        nav {
+            width: 180px;
+            height: 100vh;
+            padding-top: 10px;
+            font-size: 20px;
+            background-color: rgb(46, 52, 57);
+            position: fixed;
+            top: 65px;
+        }
+        nav ul {
+            height: 100%;
+        }
+        nav li {
+            height: 6%;
+            padding: 10px;
+        }
+        nav a {
+            height: 35px;
+            color: white;
+            display: block;
+        }
+        nav a:hover {
+            background-color: rgba(100, 104, 107, 0.356);
+        }
+        nav ul i {
+            padding-left: 10px;
+            padding-right: 20px;
+        }
+        nav ul span {
+            font-size: 15px;
+        }
+        section {
+            width: 100%;
+            position: absolute;
+            top: 65px;
+            padding-left: 190px;
+            z-index: -1;
+        }
+        section>h1 {
+            padding: 10px;
+            border-bottom: 1px solid rgba(133, 133, 133, 0.8);
+        }
+        section>div {
+            /* padding: 10px; */
+        }
+        section p {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+        }
+        section table {
+            width: 98%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        section th {
+            padding: 5px;
+            border: 1px solid rgba(133, 133, 133, 0.5);
+        }
+        section td {
+            padding: 5px;
+            border: 1px solid rgba(133, 133, 133, 0.5);
+            word-break: break-all;
+        }
+        section div.information {
+            height: 800px;
+            /* background-color: yellowgreen; */
+        }
+        .information table {
+            border-left: 3px solid white;
+            border-right: 3px solid white;
+            margin-bottom: 20px;
+        }
+        .information th {
+            text-align: right;
+            padding-right: 20px;
+        }
+        .information td {
+            text-align: left;
+            padding-left: 20px;
+        }
+        .information input[type="text"] {
+            width: 150px;
+            height: 25px;
+        }
+        .information div.photo {
+            width: 180px;
+            height: 200px;
+            background-image: url("bg_photo.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border: 1px solid rgba(133, 133, 133, 0.4);
+        }
+        .photo img {
+            width: 100%;
+            height: 100%;
+        }
+        .information input[type="file"] {
+            width: 100%;
+        }
+        .information #sample6_address {
+            width: 70%;
+        }
+        #sample6_detailAddress, #sample6_extraAddress {
+            width: 40%;
+        }
+        div.bottomBtn {
+            text-align: right;
+        }
+        .bottomBtn input {
+            width: 100px;
+            height: 30px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <header>
+            <div class="logo"><i class="fab fa-cloudsmith"></i> INIT</div>
+            <div class="hnav">
+                <div class="hmenu admin"><a href=""><i class="fas fa-cog"></i><br><span>관리자</span></a></div>
+                <div class="hmenu"><a href=""><i class="far fa-bell"></i><br><span>알림</span></a></div>
+                <div class="hmenu"><a href="UIProject_user.html"><i class="far fa-user-circle"></i><br><span>마이페이지</span></a></div>
+            </div>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href=""><i class="fas fa-home"></i><span>홈</span></a></li>
+                <li><a href=""><i class="fas fa-envelope"></i><span>메일</span></a></li>
+                <li><a href=""><i class="fas fa-clipboard-check"></i><span>전자결재</span></a></li>
+                <li><a href=""><i class="fas fa-list"></i><span>게시판</span></a></li>
+                <li><a href=""><i class="fas fa-th-large"></i><span>Works</span></a></li>
+                <li><a href=""><i class="fas fa-tasks"></i><span>ToDO</span></a></li>
+                <li><a href=""><i class="far fa-calendar-alt"></i><span>캘린더</span></a></li>
+                <li><a href=""><i class="far fa-address-book"></i><span>주소록</span></a></li>
+                <li><a href=""><i class="fas fa-comment-dots"></i><span>설문</span></a></li>
+                <li><a href=""><i class="fas fa-network-wired"></i><span>조직도</span></a></li>
+            </ul>
+        </nav>
+        
+        <section>
+            <h1>내 정보 확인</h1>
+            <div class="information">
+                <p><i class="fas fa-angle-right"></i> 상세 정보</p>
+                <form action="">
+                    <table class="info_tbl1">
+                        <tr>
+                            <td rowspan="8" width="13%">
+                                <div class="photo">
+                                    <img src="" alt="" id="preview">
+                                </div>
+                                <input type="file" id="imgSelector">
+                            </td>
+                            <th width="11%">사원번호</th>
+                            <td width="25%"><input type="text" name="" id="" value="2021061758" disabled></td>
+                            <th width="11%">성명</th>
+                            <td width="40%"><input type="text" name="" id="" value="김수한무" disabled></td>
+                        </tr>
+                        <tr>
+                            <th>영문성명</th>
+                            <td><input type="text" name="" id="" value="KIM SUHANMU" disabled></td>
+                            <th>성별</th>
+                            <td>
+                                <input type="radio" name="" id=""><label for="">남성</label>
+                                <input type="radio" name="" id=""><label for="">여성</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>아이디</th>
+                            <td><input type="text" name="" id="" value="ksh1234"></td>
+                            <th>비밀번호</th>
+                            <td><input type="password" name="" id=""></td>
+                        </tr>
+                        <tr>
+                            <th>생년월일</th>
+                            <td><input type="date" name="" id="" value="1990-09-12" disabled></td>
+                            <th>양력음력</th>
+                            <td>
+                                <input type="radio" name="" id=""><label for="">양력</label>
+                                <input type="radio" name="" id=""><label for="">음력</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>결혼유무</th>
+                            <td>
+                                <input type="radio" name="" id=""><label for="">기혼</label>
+                                <input type="radio" name="" id=""><label for="">미혼</label>
+                            </td>
+                            <th>결혼기념일</th>
+                            <td><input type="date" name="" id=""></td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">자택주소</th>
+                            <td><input type="text" id="sample6_postcode" placeholder="우편번호"> <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"></td>
+                            <td colspan="2"><input type="text" id="sample6_address" placeholder="주소"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><input type="text" id="sample6_detailAddress" placeholder="상세주소"> <input type="text" id="sample6_extraAddress" placeholder="참고항목"></td>
+                        </tr>
+                    </table>
+                    <table class="info_tbl2">
+                        <tr>
+                            <th>부서</th>
+                            <td><input type="text" name="" id="" value="연구개발" disabled></td>
+                            <th>직급</th>
+                            <td><input type="text" name="" id="" value="사원" disabled></td>
+                            <th>직책</th>
+                            <td><input type="text" name="" id="" value="팀원" disabled></td>
+                        </tr>
+                        <tr>
+                            <th>재직구분</th>
+                            <td>
+                                <select name="status" id="stauts" disabled>
+                                    <option value="재직">재직</option>
+                                    <option value="퇴직">퇴직</option>
+                                    <option value="휴직">휴직</option>
+                                    <option value="해고">해고</option>
+                                    <option value="퇴사">퇴사</option>
+                                </select>
+                            </td>
+                            <th>입사일자</th>
+                            <td><input type="text" name="" id="" value="2021-08-15" disabled></td>
+                            <th>퇴사일자</th>
+                            <td><input type="text" name="" id="" disabled></td>
+                        </tr>
+                        <tr>
+                            <th>비고</th>
+                            <td colspan="5"><input type="text" disabled></td>
+                        </tr>
+                    </table>
+                    <div class="bottomBtn">
+                        <input type="reset" name="" id="" value="내용 삭제">
+                        <input type="button" value="수정">
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        $(function() {
+            // 로고 누르면 메인 화면으로 이동
+            $(".logo").click(function() {
+                location.href = "UIproject_main.html";
+            });
+        });
+
+        // 사진 업로드 썸네일 나타내기
+        $('#imgSelector').change(function(){
+            setImageFromFile(this, '#preview');
+        });
+
+        function setImageFromFile(input, expression) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $(expression).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 카카오 주소 api
+        function sample6_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R'){
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraAddr !== ''){
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        document.getElementById("sample6_extraAddress").value = extraAddr;
+                    
+                    } else {
+                        document.getElementById("sample6_extraAddress").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById("sample6_address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("sample6_detailAddress").focus();
+                }
+            }).open();
+        }
+    </script>
+</body>
+</html>
