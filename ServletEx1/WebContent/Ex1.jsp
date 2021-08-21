@@ -13,7 +13,8 @@
 	
 	<hr>
 	<%
-		Vector<FDto> v = (Vector<FDto>)request.getAttribute("selectResult");
+		//Vector<FDto> v = (Vector<FDto>)request.getAttribute("selectResult");
+		Vector<FDto> v = (Vector<FDto>)session.getAttribute("selectResult");
 		for(int i = 0; i < v.size(); i++) {
 			out.print(v.get(i).getIdx() + "/" +
 						v.get(i).getName() + "/" +

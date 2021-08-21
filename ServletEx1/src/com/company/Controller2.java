@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class Controller2
@@ -36,7 +37,7 @@ public class Controller2 extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String page = request.getParameter("page");
 		if (page == null) {
-			page = "ex1";
+			page = "insert";
 		}
 		
 		// FDao를 이용해서 select 해서 Ex1.jsp에 출력
@@ -78,9 +79,18 @@ public class Controller2 extends HttpServlet {
 			dao.insertData(dto2);
 			
 			//go = "redirect:/page=ex1"; // 안된다 왜지...
+			
 			dto = dao.selectData();
-			request.setAttribute("selectResult", dto);
-			go = "/Ex1.jsp?page=ex1";
+			
+			//request.setAttribute("selectResult", dto);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("selectResult", dto);
+		
+			// 주소줄의 차이만 있고 페이지 이동은 똑같이 됨!
+			//response.sendRedirect("Ex1.jsp");
+			response.sendRedirect("Controller2?page=ex1");
+			return;
 		} else if (page.equals("ex1")) {
 			//request.setAttribute("data", "Ex1 페이지로 잘 왔다. 환영! 환영!");
 			request.setAttribute("selectResult", dto);
