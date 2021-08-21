@@ -36,7 +36,7 @@ public class Controller2 extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String page = request.getParameter("page");
 		if (page == null) {
-			page = "insert";
+			page = "ex1";
 		}
 		
 		// FDao를 이용해서 select 해서 Ex1.jsp에 출력
@@ -67,17 +67,20 @@ public class Controller2 extends HttpServlet {
 			String myfile = request.getParameter("myfile");
 			String ofname = request.getParameter("ofname");
 			String sfname = request.getParameter("sfname");
+			
 			FDto dto2 = new FDto();
 			dto2.setName(name);
 			dto2.setId(id);
 			dto2.setMyfile(myfile);
 			dto2.setOfname(ofname);
 			dto2.setSfname(sfname);
+			
 			dao.insertData(dto2);
 			
 			//go = "redirect:/page=ex1"; // 안된다 왜지...
+			dto = dao.selectData();
 			request.setAttribute("selectResult", dto);
-			go = "/Ex1.jsp";
+			go = "/Ex1.jsp?page=ex1";
 		} else if (page.equals("ex1")) {
 			//request.setAttribute("data", "Ex1 페이지로 잘 왔다. 환영! 환영!");
 			request.setAttribute("selectResult", dto);
