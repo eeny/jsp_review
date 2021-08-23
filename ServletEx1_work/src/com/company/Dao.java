@@ -98,13 +98,14 @@ public class Dao {
 
 	public BoardDto getSelectIdx(int idx) {
 		BoardDto dto = new BoardDto();
+		
 		try {
 			conn = getConnection();
 			String sql = "SELECT * FROM servletboard1 WHERE idx = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
 				dto.setIdx(rs.getInt(1));
 				dto.setName(rs.getString(2));
 				dto.setPw(rs.getString(3));

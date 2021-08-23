@@ -21,25 +21,30 @@ public class Controller2 extends HttpServlet {
     public Controller2() {
         super();
     }
-
+    // 1단계 - 요청 받기
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);
+		// get방식으로 데이터가 넘어와도 doProcess()가 실행된다.
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doProcess(request, response);		
+		doProcess(request, response);	
+		// post방식으로 데이터가 넘어와도 doProcess()가 실행된다.
 	}
-
+	// 1단계가 실행되는 실제 코드
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/*String page = "ex1";
 		if (request.getParameter("page") != null) {
 			page = request.getParameter("page");
 		}*/
 		request.setCharacterEncoding("utf-8");
+		
+		// 2단계 - 사용자 요청 분석하기
 		String page = request.getParameter("page");
 		if (page == null) {
 			page = "insert";
 		}
 		
+		// 3단계 - 모델을 사용하여 기능 수행하기
 		// FDao를 이용해서 select 해서 Ex1.jsp에 출력
 		FDao dao = new FDao();
 		Vector<FDto> dto = dao.selectData();
@@ -78,30 +83,21 @@ public class Controller2 extends HttpServlet {
 			
 			dao.insertData(dto2);
 			
-			//go = "redirect:/page=ex1"; // 안된다 왜지...
-			
-			dto = dao.selectData();
-			
-			//request.setAttribute("selectResult", dto);
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("selectResult", dto);
-		
-			// 주소줄의 차이만 있고 페이지 이동은 똑같이 됨!
-			//response.sendRedirect("Ex1.jsp");
 			response.sendRedirect("Controller2?page=ex1");
 			return;
 		} else if (page.equals("ex1")) {
-			//request.setAttribute("data", "Ex1 페이지로 잘 왔다. 환영! 환영!");
+			// 4단계 - 결과를 reqeust를 통해서 담음
+			request.setAttribute("data", "Ex1 페이지로 잘 왔다. 환영! 환영!");
 			request.setAttribute("selectResult", dto);
 			go = "/Ex1.jsp";
 		} else if (page.equals("ex2")) {
 			request.setAttribute("data", "Hello Hello Ex2 page!!!");
 			go = "/Ex2.jsp";
 		} else {
-			go = "Ex3.jsp";
+			go = "/Ex3.jsp";
 		}
 		
+		// 5단계 - 실제 jsp페이지로 이동
 		RequestDispatcher dispatcher = 
 				request.getRequestDispatcher(go);
 		dispatcher.forward(request, response);

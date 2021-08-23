@@ -22,7 +22,7 @@
 		</tr>
 		<tr>
 			<td>내용</td>
-			<td><textarea name="content" value="${data.getContent() }"></textarea></td>
+			<td><textarea name="content">${data.getContent() }</textarea></td>
 		</tr>
 	</table>
 </body>
