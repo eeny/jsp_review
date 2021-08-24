@@ -1,3 +1,4 @@
+<%@page import="com.test.FBoardDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,18 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
+<% FBoardDto dto = (FBoardDto)request.getAttribute("data"); %>
 	<table border="1" cellspacing="0">
 		<tr>
 			<td>번호</td>
 			<td>${data.getIdx() }</td>
-		</tr>
-		<tr>
-			<td>이름</td>
-			<td>${data.getName() }</td>
-		</tr>
-		<tr>
-			<td>비밀번호</td>
-			<td>${data.getPw() }</td>
 		</tr>
 		<tr>
 			<td>제목</td>
@@ -26,7 +20,11 @@
 		</tr>
 		<tr>
 			<td>내용</td>
-			<td><textarea name="content" readonly>${data.getContent() }</textarea></td>
+			<td><textarea readonly>${data.getDescr() }</textarea></td>
+		</tr>
+		<tr>
+			<td>첨부파일</td>
+			<td><%=getServletContext().getRealPath("/upload")%>\<%=dto.getSfilename() %></td>
 		</tr>
 	</table>
 	<br>

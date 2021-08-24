@@ -1,4 +1,4 @@
-package com.company;
+package com.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,8 +12,10 @@ public class Dao {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	int result = 0;
+	// 커넥션풀로 커넥션 연결하기
+	String poolUrl = "jdbc:apache:commons:dbcp:pool";
 	
-	private Connection getConnection() {
+	/*private Connection getConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url = "jdbc:mysql://127.0.0.1:3306/jspdb?characterEncoding=utf8";
@@ -26,7 +28,7 @@ public class Dao {
 			e.printStackTrace();
 		}
 		return conn;
-	}
+	}*/
 	
 	private void freeConnection(ResultSet r, PreparedStatement p, Connection c) {
 		try {
@@ -52,41 +54,42 @@ public class Dao {
 		}
 	}
 	
-	public Vector<BoardDto> getSelect() {
-		Vector<BoardDto> v = new Vector<>();
+	public Vector<FBoardDto> getSelect() {
+		Vector<FBoardDto> v = new Vector<>();
 		try {
-			conn = getConnection();
-			String sql = "SELECT * FROM servletboard1";
+			conn = DriverManager.getConnection(poolUrl);
+			String sql = "SELECT * FROM servletboard2";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				BoardDto dto = new BoardDto();
+				FBoardDto dto = new FBoardDto();
 				dto.setIdx(rs.getInt(1));
-				dto.setName(rs.getString(2));
-				dto.setPw(rs.getString(3));
-				dto.setTitle(rs.getString(4));
-				dto.setContent(rs.getString(5));
-				dto.setReg_date(rs.getString(6));
+				dto.setTitle(rs.getString(2));
+				dto.setDescr(rs.getString(3));
+				dto.setOfilename(rs.getString(4));
+				dto.setSfilename(rs.getString(5));
+				dto.setRegdate(rs.getString(6));
 				v.add(dto);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			freeConnection(rs, pstmt, conn);
+			
 		}
 		
 		return v;
 	}
 
-	public void insertData(BoardDto dto) {
+	public void insertData(FBoardDto dto) {
 		try {
-			conn = getConnection();
-			String sql = "INSERT INTO servletboard1 VALUES (NULL, ?, ?, ?, ?, NOW())";
+			conn = DriverManager.getConnection(poolUrl);
+			String sql = "INSERT INTO servletboard2 VALUES (NULL, ?, ?, ?, ?, NOW())";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getName());
-			pstmt.setString(2, dto.getPw());
-			pstmt.setString(3, dto.getTitle());
-			pstmt.setString(4, dto.getContent());
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getDescr());
+			pstmt.setString(3, dto.getOfilename());
+			pstmt.setString(4, dto.getSfilename());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -96,22 +99,22 @@ public class Dao {
 		}
 	}
 
-	public BoardDto getSelectIdx(int idx) {
-		BoardDto dto = new BoardDto();
+	public FBoardDto getSelectIdx(int idx) {
+		FBoardDto dto = new FBoardDto();
 		
 		try {
-			conn = getConnection();
-			String sql = "SELECT * FROM servletboard1 WHERE idx = ?";
+			conn = DriverManager.getConnection(poolUrl);
+			String sql = "SELECT * FROM servletboard2 WHERE idx = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				dto.setIdx(rs.getInt(1));
-				dto.setName(rs.getString(2));
-				dto.setPw(rs.getString(3));
-				dto.setTitle(rs.getString(4));
-				dto.setContent(rs.getString(5));
-				dto.setReg_date(rs.getString(6));
+				dto.setTitle(rs.getString(2));
+				dto.setDescr(rs.getString(3));
+				dto.setOfilename(rs.getString(4));
+				dto.setSfilename(rs.getString(5));
+				dto.setRegdate(rs.getString(6));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -122,15 +125,15 @@ public class Dao {
 		return dto;
 	}
 
-	public void updateData(BoardDto dto) {
+	public void updateData(FBoardDto dto) {
 		try {
-			conn = getConnection();
-			String sql = "UPDATE servletboard1 SET NAME = ?, pw = ?, title = ?, content = ?, reg_date = NOW() WHERE idx = ?";
+			conn = DriverManager.getConnection(poolUrl);
+			String sql = "UPDATE servletboard2 SET title = ?, descr = ?, ofilename = ?, sfilename = ?, regdate = NOW() WHERE idx = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getName());
-			pstmt.setString(2, dto.getPw());
-			pstmt.setString(3, dto.getTitle());
-			pstmt.setString(4, dto.getContent());
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getDescr());
+			pstmt.setString(3, dto.getOfilename());
+			pstmt.setString(4, dto.getSfilename());
 			pstmt.setInt(5, dto.getIdx());
 			pstmt.executeUpdate();
 			
@@ -143,8 +146,8 @@ public class Dao {
 
 	public void deleteData(int idx) {
 		try {
-			conn = getConnection();
-			String sql = "DELETE FROM servletboard1 WHERE idx = ?";
+			conn = DriverManager.getConnection(poolUrl);
+			String sql = "DELETE FROM servletboard2 WHERE idx = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.executeUpdate();

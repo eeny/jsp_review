@@ -1,4 +1,4 @@
-package com.company;
+package com.test;
 
 /*
 CREATE TABLE servletboard1 (

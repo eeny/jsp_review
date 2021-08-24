@@ -1,4 +1,4 @@
-package com.company;
+package com.test;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -7,16 +7,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SelectHandler implements CommandHandler {
+public class SelectContentHandler implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Dao dao = new Dao();
-		Vector<BoardDto> dto = dao.getSelect();
-		request.setAttribute("data", dto); // request에 값 담기
+		String idx = request.getParameter("idx");
 		
-		return "/mainView.jsp";
+		Dao dao = new Dao();
+		BoardDto dto = dao.getSelectIdx(Integer.parseInt(idx));
+		request.setAttribute("data", dto);
+		
+		return "/contentView.jsp";
 	}
 
 }

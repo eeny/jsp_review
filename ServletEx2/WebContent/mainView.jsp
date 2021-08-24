@@ -1,5 +1,5 @@
-<%@page import="com.company.Dao"%>
-<%@page import="com.company.BoardDto"%>
+<%@page import="com.test.Dao"%>
+<%@page import="com.test.BoardDto"%>
 <%@page import="java.util.Vector"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

@@ -1,4 +1,4 @@
-package com.company;
+package com.test;
 
 import java.io.IOException;
 import java.util.Vector;

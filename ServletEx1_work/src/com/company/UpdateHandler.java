@@ -11,8 +11,14 @@ public class UpdateHandler implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		return "/mainView.jsp";
+		String idx = request.getParameter("idx");
+		
+		Dao dao = new Dao();
+		BoardDto dto = dao.getSelectIdx(Integer.parseInt(idx));
+		request.setAttribute("data", dto);
+		
+		
+		return "/updateView.jsp";
 	}
 
 }

@@ -11,8 +11,12 @@ public class DeleteHandler implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		return "/mainView.jsp";
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		
+		Dao dao = new Dao();
+		dao.deleteData(idx);
+		
+		return "redirect:/Select";
 	}
 
 }

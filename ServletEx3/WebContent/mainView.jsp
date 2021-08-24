@@ -1,5 +1,5 @@
-<%@page import="com.company.Dao"%>
-<%@page import="com.company.BoardDto"%>
+<%@page import="com.test.Dao"%>
+<%@page import="com.test.FBoardDto"%>
 <%@page import="java.util.Vector"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -14,13 +14,12 @@
 	<table border="1" cellspacing="0">
 		<tr>
 			<td>글번호</td>
-			<td>작성자</td>
 			<td>제목</td>
 			<td>작성일</td>
 		</tr>
 		<%
-			Vector<BoardDto> v = (Vector)request.getAttribute("data");
-			if(v == null) {
+			Vector<FBoardDto> v = (Vector)request.getAttribute("data");
+			if(v == null || v.size() == 0) {
 		%>
 				<tr>
 					<td colspan="4">등록된 글이 없습니다.</td>
@@ -31,9 +30,8 @@
 		%>
 				<tr>
 					<td><%=v.get(i).getIdx() %></td>
-					<td><%=v.get(i).getName() %></td>
 					<td><a href="Content?idx=<%=v.get(i).getIdx()%>"><%=v.get(i).getTitle() %></a></td>
-					<td><%=v.get(i).getReg_date() %></td>
+					<td><%=v.get(i).getRegdate() %></td>
 				</tr>
 		<%			
 				}
@@ -42,5 +40,8 @@
 	</table>
 	<a href="Insert">새글쓰기</a>
 	<!-- /ServletEx1_work/ + Insert -->
+	
+	<hr>
+	upload폴더 실제 위치 : <%= getServletContext().getRealPath("/upload") %>
 </body>
 </html>

@@ -29,17 +29,21 @@ public class Controller extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		String cmd = request.getRequestURI();
+		System.out.println("원본  cmd : " + cmd); // => http://localhost:8080/ServletEx1_work/
+		
 		cmd = cmd.substring(cmd.lastIndexOf("/"));
 		// 이렇게 하면 /를 포함한 값을 가져옴   =>  ex) /Insert
+		// http://localhost:8080/ServletEx1_work/ 에서 마지막 /를 잘라서 가져옴 => /
+		System.out.println("자른 후 cmd : " + cmd);
 		
 		String viewPage = null;
 		CommandHandler handler = null;
 		
 		if (cmd.equals("/Select")) {
-			handler = new SelectHandler();
+			handler = new SelectHandler(); // 이 SelectHandler를 거칠 때만 request에 값이 있다.
 			
 		} else if (cmd.equals("/Insert")) {
-			viewPage = "/insertView.jsp";// 가져갈 값이 필요 없을때는 이동할 주소만 넘기면 된다.
+			viewPage = "/insertView.jsp"; // 가져갈 값이 필요 없을때는 이동할 주소만 넘기면 된다.
 			
 		} else if (cmd.equals("/InsertProc")) {
 			handler = new InsertHandler();
@@ -47,11 +51,15 @@ public class Controller extends HttpServlet {
 		} else if (cmd.equals("/Content")) {
 			handler = new SelectContentHandler();
 			
+		} else if (cmd.equals("/Update")) {
+			handler = new UpdateHandler();
+		
+		} else if (cmd.equals("/UpdateProc")) {
+			handler = new UpdateProcHandler();
+		
 		} else if (cmd.equals("/Delete")) {
 			handler = new DeleteHandler();
 			
-		} else if (cmd.equals("/Update")) {
-			handler = new UpdateHandler();
 		} else {
 			handler = new SelectHandler();
 		}
