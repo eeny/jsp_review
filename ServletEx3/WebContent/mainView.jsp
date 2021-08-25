@@ -10,15 +10,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-	메인 페이지 - 글 목록
+	<h3>메인 페이지 - 글 목록</h3>
 	<table border="1" cellspacing="0">
 		<tr>
 			<td>글번호</td>
 			<td>제목</td>
 			<td>작성일</td>
 		</tr>
-		<%
+		<%	
+			// 페이징
+			int pnum = (int)request.getAttribute("pnum");
+			int totalPage = (int)request.getAttribute("totalPage");
+			int startPage = (int)request.getAttribute("startPage");
+			int endPage = (int)request.getAttribute("endPage");
+		
+			// 게시글 목록 가져오기
 			Vector<FBoardDto> v = (Vector)request.getAttribute("data");
+
 			if(v == null || v.size() == 0) {
 		%>
 				<tr>
@@ -38,6 +46,37 @@
 			}
 		%>
 	</table>
+	
+	<%
+		// 페이징
+		if(pnum > 1) {
+	%>
+			<a href="Select?pnum=1">[처음]</a>
+			<a href="Select?pnum=<%=pnum - 1%>">[이전]</a>
+	<%				
+		}
+	
+		for(int i=startPage; i<=endPage; i++) {
+			if(pnum == i) {
+	%>
+			<span style="color: red;font-weight: bold;">[<%=i %>]</span>
+	<%			
+			} else {
+	%>
+			<a href="Select?pnum=<%=i%>">[<%=i %>]</a>
+	<%	
+			}
+		}
+		
+		if(pnum < totalPage) {
+	%>
+			<a href="Select?pnum=<%=pnum + 1%>">[다음]</a>
+			<a href="Select?pnum=<%=totalPage%>">[끝]</a>
+	<%
+		}
+	%>
+	
+	<br>
 	<a href="Insert">새글쓰기</a>
 	<!-- /ServletEx1_work/ + Insert -->
 	

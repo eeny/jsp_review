@@ -54,12 +54,14 @@ public class Dao {
 		}
 	}
 	
-	public Vector<FBoardDto> getSelect() {
+	public Vector<FBoardDto> getSelect(int pnum, int curPage) {
 		Vector<FBoardDto> v = new Vector<>();
 		try {
 			conn = DriverManager.getConnection(poolUrl);
-			String sql = "SELECT * FROM servletboard2";
+			String sql = "SELECT * FROM servletboard2 ORDER BY regdate DESC LIMIT ?, ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (pnum - 1) * curPage);
+			pstmt.setInt(2, curPage);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				FBoardDto dto = new FBoardDto();
@@ -157,6 +159,24 @@ public class Dao {
 		} finally {
 			freeConnection(rs, pstmt, conn);
 		}
+	}
+
+	public int getTotalCnt(String table) {
+		FBoardDto dto = new FBoardDto();
+		try {
+			conn = DriverManager.getConnection(poolUrl);
+			String sql = "SELECT COUNT(idx) FROM " + table;
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			freeConnection(rs, pstmt, conn);
+		}
+		return result;
 	}
 	
 	
