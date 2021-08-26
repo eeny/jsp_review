@@ -11,11 +11,7 @@
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-dbcp2-2.8.0.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-pool2-2.9.0.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/cos-05Nov2002.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-8.0.25.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
