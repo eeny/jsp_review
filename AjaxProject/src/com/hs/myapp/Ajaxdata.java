@@ -26,7 +26,7 @@ public class Ajaxdata {
 		}		
 			response.getWriter().print(ja.toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	
